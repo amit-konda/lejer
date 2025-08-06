@@ -46,9 +46,13 @@ app.use('*', (req, res) => {
 
 async function startServer() {
   try {
-    // Initialize database connection
-    await initializeDatabase();
-    console.log('Database connected successfully');
+    // Initialize database connection (skip for now if it fails)
+    try {
+      await initializeDatabase();
+      console.log('Database connected successfully');
+    } catch (dbError) {
+      console.warn('Database connection failed, continuing without DB:', dbError);
+    }
 
     app.listen(PORT, () => {
       console.log(`🚀 Ledgerbound API server running on port ${PORT}`);
